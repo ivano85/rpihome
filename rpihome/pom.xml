@@ -8,5 +8,6 @@
   <description>The POM project containing the rpihome java projects</description>
   <modules>
   	<module>rpihome-now</module>
+  	<module>rpihome-wm</module>
   </modules>
 </project>
