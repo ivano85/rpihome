@@ -31,18 +31,25 @@ extern "C" {
     typedef struct {
         Window window;
         window_type type;
+        /* Deprecated
         struct {
             int width;
             int height;
         } preferred_size;
+        */
         struct {
             int x;
             int y;
             int width;
             int height;
         } wm_position;
-        int gravity;
         Bool visible;
+        struct {
+            int left;
+            int right;
+            int top;
+            int bottom;
+        } reserve;
     } window;
 
     void init_windows_store();

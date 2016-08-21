@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ScrollPane?>
+<?import net.objectof.actof.widgets.masonry.*?>
+
+<ScrollPane fx:id="rootLayout" minHeight="480" minWidth="640" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.ivano85.rpihome.now.CardsController" fitToWidth="true" >
+    <MasonryPane layout="ROUND_ROBIN" fx:id="cardsContainer" />
+</ScrollPane>

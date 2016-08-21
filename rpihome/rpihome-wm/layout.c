@@ -11,6 +11,8 @@
 
 #include "layout.h"
 
+#define max(x,y) ((x >= y) ? (x) : (y))
+
 static struct {
     int width;
     int height;
@@ -84,41 +86,8 @@ static void place_layedout_window(window* window, void* status) {
         return;
     }
     
-    // TODO: da rivedere perche' cosi' non va bene
     if (window->type == DOCK) {
-        if (window->gravity == NorthGravity ||
-                window->gravity == NorthEastGravity ||
-                window->gravity == NorthWestGravity) {
-            
-            window->wm_position.y = s->top_filled;
-            s->top_filled += window->wm_position.height;
-            
-        }
-        else if (window->gravity == SouthGravity ||
-                window->gravity == SouthEastGravity ||
-                window->gravity == SouthWestGravity) {
-            
-            window->wm_position.y = screen.height - window->wm_position.height - s->bottom_filled;
-            s->bottom_filled += window->wm_position.height;
-            
-        }
-
-        if (window->gravity == EastGravity ||
-                window->gravity == NorthEastGravity ||
-                window->gravity == SouthEastGravity) {
-            
-            window->wm_position.x = screen.width - window->wm_position.width - s->right_filled;
-            s->right_filled += window->wm_position.width;
-            
-        }
-        else if (window->gravity == WestGravity ||
-                window->gravity == NorthWestGravity ||
-                window->gravity == SouthWestGravity) {
-            
-            window->wm_position.x = s->left_filled;
-            s->left_filled += window->wm_position.width;
-            
-        }
+        
     }
     else {
         window->wm_position.x = screen.padding.left;
@@ -135,37 +104,13 @@ static void recalculate_boundaries(window* window, void* status) {
         return;
     }
     
-    // TODO: da rivedere perche' cosi' non va bene
     if (window->type == DOCK) {
-        if (window->gravity == NorthGravity ||
-                window->gravity == NorthEastGravity ||
-                window->gravity == NorthWestGravity) {
-            
-            screen.padding.top += window->wm_position.height;
-            
-        }
-        else if (window->gravity == SouthGravity ||
-                window->gravity == SouthEastGravity ||
-                window->gravity == SouthWestGravity) {
-            
-            screen.padding.bottom += window->wm_position.height;
-            
-        }
-
-        if (window->gravity == EastGravity ||
-                window->gravity == NorthEastGravity ||
-                window->gravity == SouthEastGravity) {
-            
-            screen.padding.right += window->wm_position.width;
-            
-        }
-        else if (window->gravity == WestGravity ||
-                window->gravity == NorthWestGravity ||
-                window->gravity == SouthWestGravity) {
-            
-            screen.padding.left += window->wm_position.width;
-            
-        }
+        
+        screen.padding.top = max(screen.padding.top, window->reserve.top);
+        screen.padding.bottom = max(screen.padding.bottom, window->reserve.bottom);
+        screen.padding.left = max(screen.padding.left, window->reserve.left);
+        screen.padding.right = max(screen.padding.right, window->reserve.right);
+        
     }
 }
 
@@ -181,31 +126,5 @@ void size_normal_window(window *window, XWindowChanges *changes, unsigned long *
 }
 
 void size_dock_window(window *window, XWindowChanges *changes, unsigned long *value_mask) {
-    
-    if (window->gravity == NorthGravity ||
-            window->gravity == NorthEastGravity ||
-            window->gravity == NorthWestGravity) {
-        changes->y = 0;
-        *value_mask |= CWY;
-    }
-    else if (window->gravity == SouthGravity ||
-            window->gravity == SouthEastGravity ||
-            window->gravity == SouthWestGravity) {
-        changes->y = screen.height - window->preferred_size.height;
-        *value_mask |= CWY;
-    }
-    
-    if (window->gravity == EastGravity ||
-            window->gravity == NorthEastGravity ||
-            window->gravity == SouthEastGravity) {
-        changes->x = screen.width - window->preferred_size.width;
-        *value_mask |= CWX;
-    }
-    else if (window->gravity == WestGravity ||
-            window->gravity == NorthWestGravity ||
-            window->gravity == SouthWestGravity) {
-        changes->x = 0;
-        *value_mask |= CWX;
-    }
     
 }

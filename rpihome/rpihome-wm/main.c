@@ -13,6 +13,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
@@ -150,7 +151,7 @@ void init_window_object(window* window) {
     
     Atom prop_dock, prop_splash, prop_dialog, prop_desktop, prop_type, prop, da;
     int status, di;
-    unsigned long dl;
+    unsigned long dl, num;
     unsigned char *prop_ret = NULL;
     XSizeHints size_hints;
     long supplied_return;
@@ -190,7 +191,7 @@ void init_window_object(window* window) {
     else {
         window->type = NORMAL;
     }
-    
+    /*
     status = XGetWMNormalHints(dpy, window->window, &size_hints, &supplied_return);
     
     if (status == Success && size_hints.flags) {
@@ -201,14 +202,46 @@ void init_window_object(window* window) {
         }
         
     }
-    
+    */
     status = XGetWindowAttributes(dpy, window->window, &attr);
     if (status) {
-        window->gravity = attr.win_gravity;
         window->wm_position.x = attr.x;
         window->wm_position.y = attr.y;
         window->wm_position.width = attr.width;
         window->wm_position.height = attr.height;
+    }
+    
+    prop_type = XInternAtom(dpy, "_NET_WM_STRUT_PARTIAL", False);
+    status = XGetWindowProperty(dpy, window->window, prop_type, 0L, LONG_MAX, False,
+            AnyPropertyType, &da, &di, &num, &dl, &prop_ret);
+    if(status == Success)
+    {
+        if(num > 0) {
+            window->reserve.left = prop_ret[0];
+            window->reserve.right = prop_ret[1];
+            window->reserve.top = prop_ret[2];
+            window->reserve.bottom = prop_ret[3];
+        }
+        else {
+            status = -1;
+        }
+
+    }
+    
+    if (status != Success) {
+        prop_type = XInternAtom(dpy, "_NET_WM_STRUT", False);
+        status = XGetWindowProperty(dpy, window->window, prop_type, 0L, LONG_MAX, False,
+                AnyPropertyType, &da, &di, &num, &dl, &prop_ret);
+        if(status == Success)
+        {
+            if(num > 0) {
+                window->reserve.left = prop_ret[0];
+                window->reserve.right = prop_ret[1];
+                window->reserve.top = prop_ret[2];
+                window->reserve.bottom = prop_ret[3];
+            }
+
+        }
     }
     
 }
