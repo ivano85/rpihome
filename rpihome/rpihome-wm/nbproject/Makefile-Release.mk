@@ -54,7 +54,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=
+LDLIBSOPTIONS=`pkg-config --libs x11`  
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -67,17 +67,17 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/rpihome-wm: ${OBJECTFILES}
 ${OBJECTDIR}/layout.o: layout.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/layout.o layout.c
+	$(COMPILE.c) -O2 `pkg-config --cflags x11`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/layout.o layout.c
 
 ${OBJECTDIR}/main.o: main.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
+	$(COMPILE.c) -O2 `pkg-config --cflags x11`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
 
 ${OBJECTDIR}/windows.o: windows.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/windows.o windows.c
+	$(COMPILE.c) -O2 `pkg-config --cflags x11`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/windows.o windows.c
 
 # Subprojects
 .build-subprojects:

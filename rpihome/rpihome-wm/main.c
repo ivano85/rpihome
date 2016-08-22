@@ -285,7 +285,7 @@ void update_window_visibility (XEvent ev) {
 void manage_top_windows() {
     
     window* win;
-    int status;
+    int status, i;
     Window w;
     Window *children;
     int nNumChildren;
@@ -297,7 +297,7 @@ void manage_top_windows() {
         return;
     }
     
-    for (int i = 0; i < nNumChildren; i++) {
+    for (i = 0; i < nNumChildren; i++) {
         w = children[i];
         win = add_window(w);
         init_window_object(win);

@@ -5,7 +5,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import net.objectof.actof.widgets.masonry.MasonryPane;
 
@@ -29,6 +28,7 @@ public class Main extends Application {
         
         rootLayout.setSpacing(10.0);
         
+        cardsController.addCard(new Card(Main.class.getClassLoader(), "scenes/weather.fxml"));
         cardsController.addCard(new Card(Main.class.getClassLoader(), "scenes/test.fxml"));
         cardsController.addCard(new Card(Main.class.getClassLoader(), "scenes/test.fxml"));
         cardsController.addCard(new Card(Main.class.getClassLoader(), "scenes/test.fxml"));
