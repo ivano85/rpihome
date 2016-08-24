@@ -1,0 +1,1 @@
+Here put static web resources for your module (CSS, JavaScript, Images, etc.)

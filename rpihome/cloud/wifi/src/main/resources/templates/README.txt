@@ -1,0 +1,1 @@
+In this folder put your templates or override core templates
